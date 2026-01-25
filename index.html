@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit Insider - Redirecting...</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script>
+        // Initialize Supabase (fallback if supabase-client.js doesn't load)
+        if (typeof window.supabaseClient === 'undefined') {
+            const SUPABASE_URL = 'https://vnhrwcerlaoipycsbigi.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZuaHJ3Y2VybGFvaXB5Y3NiaWdpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkzNTA3NTksImV4cCI6MjA4NDkyNjc1OX0.LOlRKqiOzsCBX2R6qcYukt3IG5onX3e4O-RIjcWWMnU';
+            window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0a0a0a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            font-family: 'Manrope', sans-serif;
+            color: #ffffff;
+        }
+        .loader {
+            text-align: center;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(240, 200, 50, 0.2);
+            border-top-color: #f0c832;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+        <p>Loading...</p>
+    </div>
+
+    <script>
+        // Ensure supabase is loaded
+        if (typeof window.supabaseClient === 'undefined') {
+            console.error('Supabase not loaded, redirecting to auth');
+            window.location.href = '/auth';
+        }
+
+        (async function() {
+            try {
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+                if (session) {
+                    // User is logged in, redirect to onboarding
+                    window.location.href = '/onboarding';
+                } else {
+                    // User is not logged in, redirect to auth
+                    window.location.href = '/auth';
+                }
+            } catch (error) {
+                console.error('Error checking session:', error);
+                // If there's an error, redirect to auth page
+                window.location.href = '/auth';
+            }
+        })();
+    </script>
+</body>
+</html>
